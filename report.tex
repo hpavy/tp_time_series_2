@@ -1,0 +1,209 @@
+\documentclass{article}
+
+\usepackage{amsmath, amssymb, amsthm}
+
+\begin{document}
+
+\section*{Question 1}
+
+\paragraph{Rate of convergence in the i.i.d.\ case.}
+Let $(X_i)_{i\ge 1}$ be i.i.d.\ random variables with mean $\mu$ and variance $\sigma^2 < \infty$.
+The sample mean is
+\[
+\overline{X}n = \frac{1}{n}\sum{i=1}^n X_i.
+\]
+We have
+\[
+\mathbb{E}\left[(\overline{X}_n - \mu)^2\right]
+= \operatorname{Var}(\overline{X}_n)
+= \frac{\sigma^2}{n}.
+\]
+Thus,
+\[
+\overline{X}_n - \mu = O_p\left(\frac{1}{\sqrt{n}}\right),
+\]
+so the convergence rate is \(1/\sqrt{n}\).
+
+\paragraph{Wide-sense stationary case.}
+Let $(Y_t)_{t\ge 1}$ be a wide-sense stationary process with mean $\mu$ and autocovariance function
+\[
+\gamma(k) = \operatorname{Cov}(Y_t, Y_{t+k}),
+\]
+and assume
+\[
+\sum_{k=-\infty}^{\infty} |\gamma(k)| < \infty.
+\]
+
+Define the sample mean
+\[
+\overline{Y}n = \frac{1}{n}\sum{t=1}^n Y_t.
+\]
+
+\paragraph{Variance bound.}
+Using stationarity,
+\[
+\operatorname{Var}(\overline{Y}_n)
+= \frac{1}{n^2} 
+\sum_{t=1}^n \sum_{s=1}^n \gamma(t-s)
+= \frac{1}{n^2}
+\sum_{k=-(n-1)}^{n-1} (n - |k|)\,\gamma(k).
+= \frac{1}{n}\sum_{k=-(n-1)}^{n-1} (1 - \frac{|k|}{n})\,\gamma(k)
+\]
+Since \(0 \le 1 - \frac{|k|}{n} \le 1\),
+\[
+\operatorname{Var}(\overline{Y}_n)
+\le \frac{1}{n} \sum_{k=-(n-1)}^{n-1} |\gamma(k)|
+\le \frac{1}{n} \sum_{k=-\infty}^{\infty} |\gamma(k)|.
+\]
+
+Let
+\[
+C = \sum_{k=-\infty}^{\infty} |\gamma(k)| < \infty.
+\]
+Then
+\[
+\mathbb{E}\left[(\overline{Y}_n - \mu)^2\right]
+= \operatorname{Var}(\overline{Y}_n)
+\le \frac{C}{n}.
+\]
+
+\paragraph{Conclusion.}
+Thus,
+\[
+\overline{Y}_n - \mu = O_p\left(\frac{1}{\sqrt{n}}\right),
+\]
+which is the same rate of convergence as in the i.i.d.\ case.
+
+Moreover, since
+\[
+\mathbb{E}\left[(\overline{Y}_n - \mu)^2\right] \to 0,
+\]
+we have \(\overline{Y}_n \to \mu\) in \(L^2\), and therefore in probability.  
+Thus, \(\overline{Y}_n\) is a consistent estimator of \(\mu\).
+
+
+
+\section*{Question 2}
+
+Let $\{Y_t\}_{t\ge0}$ be defined by
+\[
+Y_t = \varepsilon_t + \psi_1 \varepsilon_{t-1} + \psi_2 \varepsilon_{t-2} + \cdots
+      = \sum_{k=0}^{\infty} \psi_k \varepsilon_{t-k},
+\]
+where $(\psi_k)_{k\ge0}\subset\mathbb{R}$ are square–summable,
+$\sum_{k=0}^\infty \psi_k^2 < \infty$, and $\{\varepsilon_t\}_t$ is a zero–mean white
+noise with variance $\sigma_\varepsilon^2$.
+
+\subsection*{(a) Mean and covariance, weak stationarity}
+
+\paragraph{Mean.}
+Using linearity of expectation and $\mathbb{E}[\varepsilon_t]=0$,
+\begin{align*}
+\mathbb{E}[Y_t]
+  &= \mathbb{E}\Bigg[ \sum_{k=0}^{\infty} \psi_k \varepsilon_{t-k} \Bigg]
+   = \sum_{k=0}^{\infty} \psi_k \mathbb{E}[\varepsilon_{t-k}]
+   = 0.
+\end{align*}
+Hence the mean is constant in $t$ and equal to $0$.
+
+\paragraph{Autocorrelation}
+For any integer lag $h$,
+\[
+\mathbb{E}[Y_t Y_{t-h}]
+  = \mathbb{E}\!\left[ \Bigg( \sum_{k=0}^{\infty} \psi_k \varepsilon_{t-k} \Bigg)
+                     \Bigg( \sum_{\ell=0}^{\infty} \psi_\ell \varepsilon_{t-h-\ell} \Bigg)
+             \right].
+\]
+Expanding the product and using Fubini's theorem (justified by square–summability),
+\[
+\mathbb{E}[Y_t Y_{t-h}]
+  = \sum_{k=0}^{\infty} \sum_{\ell=0}^{\infty}
+      \psi_k \psi_\ell \,
+      \mathbb{E}\big[ \varepsilon_{t-k} \varepsilon_{t-h-\ell} \big].
+\]
+Since $\{\varepsilon_t\}$ is white noise,
+\[
+\mathbb{E}\big[ \varepsilon_{t-k} \varepsilon_{t-h-\ell} \big]
+= \begin{cases}
+  \sigma_\varepsilon^2, & \text{if } t-k = t-h-\ell \\
+  0, & \text{otherwise.}
+  \end{cases}
+\]
+The condition $t-k = t-h-\ell$ is equivalent to $\ell = k-h$.
+Thus only terms with $\ell = k-h$ contribute:
+\[
+\mathbb{E}[Y_t Y_{t-h}]
+  = \sigma_\varepsilon^2 \sum_{k=0}^{\infty} \psi_k \psi_{k-h},
+\]
+where we adopt the convention $\psi_j = 0$ for $j<0$.
+Define the autocovariance function
+\[
+\gamma(h) = \operatorname{Cov}(Y_t, Y_{t-h})
+         = \mathbb{E}[Y_t Y_{t-h}] - \mathbb{E}[Y_t]\mathbb{E}[Y_{t-h}]
+         = \sigma_\varepsilon^2 \sum_{k=0}^{\infty} \psi_k \psi_{k-h}.
+\]
+Because $(\psi_k)$ is square–summable, the series defining $\gamma(h)$ is absolutely
+convergent and therefore finite for all $h$.
+
+We see that $\mathbb{E}[Y_t]=0$ for all $t$ and that $\gamma(h)$ depends only on the
+lag $h$, not on $t$. Hence $\{Y_t\}$ is \emph{weakly stationary}.
+
+\subsection*{(b) Power spectrum}
+
+The power spectrum (spectral density) of a weakly stationary process is defined by
+\[
+S(f) = \sum_{h=-\infty}^{\infty} \gamma(h) e^{-2\pi i f h},
+\qquad f \in [-\tfrac{1}{2},\tfrac{1}{2}],
+\]
+for a sampling frequency of $1$ Hz.
+
+Introduce the function
+\[
+\phi(z) = \sum_{k=0}^{\infty} \psi_k z^k,
+\]
+which is well-defined on the unit circle $|z|=1$ by square–summability of $\psi_k$.
+Set $z = e^{-2\pi i f}$.
+Then
+\[
+\phi(e^{-2\pi i f})
+  = \sum_{k=0}^{\infty} \psi_k e^{-2\pi i f k}.
+\]
+Its complex conjugate is
+\[
+\overline{\phi(e^{-2\pi i f})}
+  = \sum_{j=0}^{\infty} \psi_j e^{2\pi i f j}.
+\]
+Therefore
+\begin{align*}
+\bigl|\phi(e^{-2\pi i f})\bigr|^2
+  &= \phi(e^{-2\pi i f}) \, \overline{\phi(e^{-2\pi i f})} \\
+  &= \left( \sum_{k=0}^{\infty} \psi_k e^{-2\pi i f k} \right)
+     \left( \sum_{j=0}^{\infty} \psi_j e^{2\pi i f j} \right) \\
+  &= \sum_{k=0}^{\infty} \sum_{j=0}^{\infty}
+        \psi_k \psi_j e^{-2\pi i f (k-j)}.
+\end{align*}
+Let $h = k-j$.
+Then
+\[
+\bigl|\phi(e^{-2\pi i f})\bigr|^2
+  = \sum_{h=-\infty}^{\infty}
+      \left( \sum_{k=0}^{\infty} \psi_k \psi_{k-h} \right)
+      e^{-2\pi i f h}.
+\]
+But from above,
+\[
+\gamma(h) = \sigma_\varepsilon^2 \sum_{k=0}^{\infty} \psi_k \psi_{k-h}.
+\]
+Hence
+\[
+\bigl|\phi(e^{-2\pi i f})\bigr|^2
+  = \frac{1}{\sigma_\varepsilon^2}
+    \sum_{h=-\infty}^{\infty} \gamma(h) e^{-2\pi i f h}
+  = \frac{S(f)}{\sigma_\varepsilon^2}.
+\]
+We conclude that
+\[
+S(f) = \sigma_\varepsilon^2 \, \bigl|\phi(e^{-2\pi i f})\bigr|^2,
+\]
+as required.
+\end{document}
